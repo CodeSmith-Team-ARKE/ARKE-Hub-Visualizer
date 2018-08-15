@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "proxy": "http://localhost:8080",
   "private": true,
+  "homepage": "https://github.com/KYSiu717/ARKE-Hub-Visualizer",
   "dependencies": {
     "aws-sdk": "^2.291.0",
     "body-parser": "^1.18.3",
