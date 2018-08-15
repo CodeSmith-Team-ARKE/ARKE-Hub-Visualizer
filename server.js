@@ -7,8 +7,10 @@ const app = express();
 const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-east-2' });
 
+
 // console.log(AWS.config);
 const cloudwatch = new AWS.CloudWatch();
+const ec2 = new AWS.EC2();
 
 // logs the current S3 buckets
 // var s3 = new AWS.S3();
@@ -17,14 +19,20 @@ const cloudwatch = new AWS.CloudWatch();
 //   else console.log(data);
 // });
 
+// var params = {
+//   DashboardName: 'Test-Board' /* required */
+// };
+// cloudwatch.getDashboard(params, function(err, data) {
+//   if (err) console.log(err, err.stack);
+//   // an error occurred
+//   else console.log(data); // successful response
+// });
+
 var params = {
-  DashboardName: 'Test-Board' /* required */
 };
-cloudwatch.getDashboard(params, function(err, data) {
-  if (err) console.log(err, err.stack);
-  // an error occurred
-  else console.log(data); // successful response
-});
+ec2.describeAccountAttributes(params, function(err, data) {
+  if (err) console.log(err, err.stack); 
+  else     console.log(data);
 
 // < =================================================== > //
 app.use(express.static(path.join(__dirname, 'build')));
