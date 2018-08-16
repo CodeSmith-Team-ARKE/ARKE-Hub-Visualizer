@@ -40,12 +40,15 @@
 
 .wrapper {
   border: 10px solid orange;
+  text-align: center;
+  font-size: 50px;
+  width: auto;
 }
 
 .EC2-contents {
   margin: 10px 10px;
-  text-align: left;
 }
+
 .button {
   background-color: #4caf50; /* Green */
   border: none;
@@ -81,29 +84,33 @@
 
 .submit {
   position: absolute;
+  line-height: 100px;
+  vertical-align: middle;
   height: 100px;
-  margin: 0;
-  width: 100% !important;
-  left: 0;
   bottom: 0;
+  margin: 0;
+  width: 100%;
+  padding: 0 !important;
 }
 
 .services-container {
   position: relative;
   color: black;
-  margin: 10px 0;
+  /* margin: 10px 0; */
   /* padding: 10px 0; */
-  border: 5px solid red;
+  /* border: 5px solid red; */
 }
 
 .services {
   position: relative;
   display: inline-block;
-  /* padding: auto auto; */
+  padding: 0 auto;
+  /* margin: 0 10px; */
   text-align: center;
   vertical-align: middle;
   line-height: 100px;
   height: 100px;
-  border: 5px solid orange;
-  width: 30%;
+  /* border-top: 1px solid orange; */
+  border-bottom: 1px solid orange;
+  width: 100%;
 }
