@@ -7,7 +7,6 @@ const app = express();
 const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-east-2' });
 
-
 // console.log(AWS.config);
 const cloudwatch = new AWS.CloudWatch();
 const ec2 = new AWS.EC2();
@@ -28,11 +27,17 @@ const ec2 = new AWS.EC2();
 //   else console.log(data); // successful response
 // });
 
-var params = {
-};
+var params = {};
 ec2.describeAccountAttributes(params, function(err, data) {
-  if (err) console.log(err, err.stack); 
-  else     console.log(data);
+  if (err) console.log(err, err.stack);
+  else {
+    console.log('================EC2 Account Data Object============ \n', data);
+    console.log(
+      '================EC2 Data - Supported Platforms============ \n',
+      data.AccountAttributes[0].AttributeValues
+    );
+  }
+});
 
 // < =================================================== > //
 app.use(express.static(path.join(__dirname, 'build')));
