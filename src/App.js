@@ -8,14 +8,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showCreateDisplay: false,
-      ec2Display: false,
-      ec2Container: [] // where the information will be put into once button is clicked
+      showCreateDisplay: false, //flag w/ boolean to display or not
+      ec2Display: false, //bool val to display ec2 button or not
+      ec2Container: [<FirstChart />, <FirstChart />, <FirstChart />] // where the information will be put into once button is clicked
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.toggleEC2Display = this.toggleEC2Display.bind(this);
   }
 
+  // event handler to change state = {showCreateDisplay: true} upon user click
   toggleDisplay() {
     this.setState({
       showCreateDisplay: !this.state.showCreateDisplay
@@ -54,17 +55,23 @@ class App extends Component {
           <Popup text="Close Me" closePopup={toggle} toggleEC2={toggleEC2} />
         ) : null}
 
-        <div className="wrapper">
-          {/*Metric display component, will display 3 graphs */}
-          <div>Elastic Cloud Computer (EC2)</div>
-          {/* <div className="clear button">Clear</div> */}
-          {this.state.ec2Display ? <FirstChart /> : null}
-        </div>
-        <div className="wrapper">
-          <div>Simple Storage Service (S3)</div>
-        </div>
-        <div className="wrapper">
-          <div>Dynamo Database (DDB) </div>
+        {/*Metric display component, will display 3 graphs */}
+        <div>
+          <div className="wrapper">
+            {/* <div className="clear button">Clear</div> */}
+            {this.state.ec2Display ? (
+              <div>Elastic Cloud Computer (EC2) {this.state.ec2Container}</div>
+            ) : null}
+          </div>
+          {/* </div className=""> */}
+
+          <div className="wrapper">
+            {/* <div>Simple Storage Service (S3)</div> */}
+          </div>
+
+          <div className="wrapper">
+            {/* <div>Dynamo Database (DDB) </div> */}
+          </div>
         </div>
       </div>
     );
