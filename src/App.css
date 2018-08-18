@@ -17,17 +17,15 @@
 } */
 .App-title {
   font-size: 3em;
-  color: orange;
+  color: teal;
 }
 .App-header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-
   background-color: black;
   height: auto;
-
   text-align: center;
 }
 .invisible-header {
@@ -39,10 +37,13 @@
 }
 
 .wrapper {
-  border: 10px solid orange;
+  /* border: 10px solid teal; */
   text-align: center;
   font-size: 50px;
   width: auto;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 10px;
 }
 
 .EC2-contents {
@@ -59,6 +60,7 @@
   margin: 0 auto 10px auto;
   width: 100px;
   font-size: 16px;
+  cursor: pointer;
 }
 
 .popup {
@@ -71,6 +73,7 @@
   bottom: 0;
   margin: auto;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
 }
 .popup_inner {
   position: fixed;
@@ -111,6 +114,6 @@
   line-height: 100px;
   height: 100px;
   /* border-top: 1px solid orange; */
-  border-bottom: 1px solid orange;
+  border-bottom: 1px solid black;
   width: 100%;
 }

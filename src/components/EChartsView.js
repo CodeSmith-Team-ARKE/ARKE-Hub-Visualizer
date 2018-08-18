@@ -11,35 +11,58 @@ import ReactEcharts from 'echarts-for-react';
 //set number of 'boxes' and the state of each box would depend on the button clicked
 //one box would be the label one box would be the graph one box would be the percentage visualization one box would be the # of instances
 
-class EChartsView extends Component {
+class EC2View extends Component {
   render() {
     // let chartType = '';
     // let chartTitle = '';
     //logic for button clicks ( if button = EC2 chartType = 'bar' Chart Title = 'CPU' )
     const options = {
-      title: { text: 'ECharts ' },
+      title: { text: 'CPU usage' },
       tooltip: {},
       xAxis: {
-        data: ['asda', 'c', 's', 'd', 'f', 's']
+        data: ['Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat', 'Sun']
       },
       yAxis: {},
       series: [
         {
-          name: 'd',
+          name: 'Time',
           type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
+          data: [5, 20, 36, 10, 10, 20, 100]
+        }
+      ]
+    };
+    const options2 = {
+      title: { text: 'Time spent researching AWS' },
+      tooltip: {},
+      xAxis: {
+        data: ['Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat', 'Sun']
+      },
+      yAxis: {},
+      series: [
+        {
+          name: 'Time',
+          type: 'line',
+          data: [100, 150, 1200, 1921, 9928, 1289, 100]
         }
       ]
     };
     return (
-      <ReactEcharts
-        option={options}
-        notMerge={true}
-        lazyUpdate={true}
-        theme={'theme_name'}
-      />
+      <div>
+        <ReactEcharts
+          option={options}
+          notMerge={true}
+          lazyUpdate={true}
+          theme={'theme_name'}
+        />
+        <ReactEcharts
+          option={options2}
+          notMerge={true}
+          lazyUpdate={true}
+          theme={'theme_name'}
+        />
+      </div>
     );
   }
 }
 
-export default EChartsView;
+export default EC2View;
