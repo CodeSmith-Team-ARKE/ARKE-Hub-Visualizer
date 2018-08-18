@@ -27,6 +27,7 @@
   background-color: black;
   height: auto;
   text-align: center;
+  z-index: 5;  /*brings header to front of z-index  - the higer the index the more front it is - we should figure out a way to make this consistant (should always be the one in front)*/
 }
 .invisible-header {
   /* background-color: green; */
