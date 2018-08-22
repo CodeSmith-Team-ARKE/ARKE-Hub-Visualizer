@@ -6,7 +6,7 @@ import ReactEcharts from 'echarts-for-react';
 //one box would be the label one box would be the graph one box would be the percentage visualization one box would be the # of instances
 
 // make this stateful
-class EC2View extends Component {
+class EChartsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -77,4 +77,4 @@ class EC2View extends Component {
   }
 }
 
-export default EC2View;
+export default EChartsView;

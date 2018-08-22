@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
 
 class ChooseMetric extends Component {
-
-
-
 render() {
   return (
   <div>
@@ -12,10 +9,12 @@ render() {
       CPU
     </div>
 
+    <div>
     {this.state.showCreateDisplay ? (
-      <Popup text="Close Me" closePopup={toggle} toggleEC2={toggleEC2} />
+      <PopupChooseEC2 text="Close Me" closePopup={toggle} toggleEC2={toggleEC2} />
     ) : null}
+    </div>
   </div>
-  )
+  )}
 }
 

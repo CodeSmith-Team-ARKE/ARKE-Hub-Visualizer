@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export default class Popup extends Component {
+export default class PopupCreateDisplay extends Component {
   render() {
     const { toggleEC2, closePopup } = this.props;
     return (
@@ -8,7 +8,8 @@ export default class Popup extends Component {
         <div className="popup_inner">
           <div className="services-container">
             <div className="services" onClick={toggleEC2}>
-              Elastic Cloud Compute (EC2)
+            <div>
+          <ChooseEC2 />
             </div>
             <div className="services">Simple Storage Service (S3)</div>
             <div className="services">Dynamo Database (DDB)</div>
@@ -17,10 +18,9 @@ export default class Popup extends Component {
           <div className="submit button" onClick={closePopup}>
             Close / Submit
           </div>
+          </div>
         </div>
       </div>
     );
   }
 }
-
-// {this.props.text}

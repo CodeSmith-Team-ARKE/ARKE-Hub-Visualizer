@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import Popup from './components/popup.jsx';
+import PopupCreateDisplay from './components/PopupCreateDisplay.jsx';
+import PopupChooseEC2 from './components/PopupChooseEC2.jsx';
 import FirstChart from './components/EChartsView.js';
+import ChooseEC2 from './components/ChooseEC2.js';
+
+// This component is a frame for the other components and it is the parent component with state
 
 class App extends Component {
   constructor(props) {
@@ -27,7 +31,7 @@ class App extends Component {
       },
       // Put a reference to ChooseMetric import here:::::::::::: (where [FirstChart]'s are)
 
-      ec2Container: [<FirstChart />, <FirstChart />, <FirstChart />] // where the information will be put into once button is clicked
+      // ec2Container: [<FirstChart />, <FirstChart />, <FirstChart />] // where the information will be put into once button is clicked
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.toggleEC2Display = this.toggleEC2Display.bind(this);
@@ -50,7 +54,7 @@ class App extends Component {
   render() {
     const toggle = this.toggleDisplay;
     const toggleEC2 = this.toggleEC2Display;
-    const changeChartType = this.assignChartType;
+    // const changeChartType = this.assignChartType;
 
     return (
       // className="App"
@@ -66,21 +70,28 @@ class App extends Component {
         {/* This creates the create display button */}
         <div className="button" onClick={toggle}>
           Create Display
+        
+        
         </div>
 
         {/* This checks to see if a display is on or off and generates the popup display depending on the state */}
+        
         {this.state.showCreateDisplay ? (
-          <Popup text="Close Me" closePopup={toggle} toggleEC2={toggleEC2} />
+          <PopupCreateDisplay text="Close Me" closePopup={toggle} toggleEC2={toggleEC2} />
         ) : null}
 
         {/*Metric display component, will display 3 graphs */}
-        <div>
-          <div className="wrapper">
+        {/* <div>
+
+          {/* <div className="wrapper">
             {/* <div className="clear button">Clear</div> */}
-            {this.state.ec2Display ? (
+
+            {/* {this.state.ec2Display ? (
               <div>Elastic Cloud Computer (EC2) {this.state.ec2Container}</div>
             ) : null}
-          </div>
+
+          </div> */}
+
           {/* </div className=""> */}
 
           <div className="wrapper">
@@ -91,7 +102,7 @@ class App extends Component {
             {/* <div>Dynamo Database (DDB) </div> */}
           </div>
         </div>
-      </div>
+      // </div>
     );
   }
 }
