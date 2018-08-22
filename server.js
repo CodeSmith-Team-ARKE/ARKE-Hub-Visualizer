@@ -27,6 +27,27 @@ const ec2 = new AWS.EC2();
 //   else console.log(data); // successful response
 // });
 
+$.get('data.json').done(function (data) {
+  myChart.setOption({
+      title: {
+          text: 'asynchronous data loading example'
+      },
+      tooltip: {},
+      legend: {
+          data:['Sales']
+      },
+      xAxis: {
+          data: ["shirts","cardigan","chiffon shirt","pants","heels","sockes"]
+      },
+      yAxis: {},
+      series: [{
+          name: 'Sales',
+          type: 'bar',
+          data: [5, 20, 36, 10, 10, 20]
+      }]
+  });
+});
+
 var params = {};
 ec2.describeAccountAttributes(params, function(err, data) {
   if (err) console.log(err, err.stack);

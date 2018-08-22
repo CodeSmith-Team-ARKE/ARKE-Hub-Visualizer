@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
 import Popup from './components/popup.jsx';
 import FirstChart from './components/EChartsView.js';
@@ -10,6 +9,24 @@ class App extends Component {
     this.state = {
       showCreateDisplay: false, //flag w/ boolean to display or not
       ec2Display: false, //bool val to display ec2 button or not
+      options: {
+        title: {text: 'CPU Usage'},
+        tooltip: {},
+        xAxis: {
+          // this will eventually be accessing a prop off a back end obj
+          // eg: Obj.data.times 
+          data: ['8:00', '8:30', '9:00', '9:30', '10:00', '10:30',] 
+        },
+        yAxis: {},
+      series: [
+        {
+          name: 'Time',
+          type: 'line',
+          data: [5, 20, 36, 10, 10, 20, 100]
+        }]
+      },
+      // Put a reference to ChooseMetric import here:::::::::::: (where [FirstChart]'s are)
+
       ec2Container: [<FirstChart />, <FirstChart />, <FirstChart />] // where the information will be put into once button is clicked
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
@@ -33,6 +50,7 @@ class App extends Component {
   render() {
     const toggle = this.toggleDisplay;
     const toggleEC2 = this.toggleEC2Display;
+    const changeChartType = this.assignChartType;
 
     return (
       // className="App"
