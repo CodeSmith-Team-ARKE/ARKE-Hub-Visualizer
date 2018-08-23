@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PopupChooseEC2 from './components/PopupChooseEC2.jsx';
+import PopupChooseEC2 from './PopupChooseEC2.jsx';
 
 class ChooseEC2 extends Component {
 

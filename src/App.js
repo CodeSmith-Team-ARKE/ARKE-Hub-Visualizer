@@ -13,6 +13,7 @@ class App extends Component {
     this.state = {
       showCreateDisplay: false, //flag w/ boolean to display or not
       ec2Display: false, //bool val to display ec2 button or not
+      metricsDisplay: false,
       options: {
         title: {text: 'CPU Usage'},
         tooltip: {},
@@ -35,6 +36,7 @@ class App extends Component {
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.toggleEC2Display = this.toggleEC2Display.bind(this);
+    this.toggleMetricDisplay = this.toggleMetricDisplay.bind(this);
   }
 
   // event handler to change state = {showCreateDisplay: true} upon user click
@@ -51,9 +53,17 @@ class App extends Component {
     console.log('EC2 toggled');
   }
 
+  toggleMetricDisplay() {
+    this.setState({
+      metricDisplay: true
+    });
+    console.log('metrics toggled');
+  }
+
   render() {
     const toggle = this.toggleDisplay;
     const toggleEC2 = this.toggleEC2Display;
+    const toggleMetrics = this.toggleMetricDisplay;
     // const changeChartType = this.assignChartType;
 
     return (

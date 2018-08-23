@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ChooseEC2 from './ChooseEC2.js'
 
 export default class PopupCreateDisplay extends Component {
   render() {
