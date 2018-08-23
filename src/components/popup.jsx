@@ -22,5 +22,3 @@ export default class Popup extends Component {
     );
   }
 }
-
-// {this.props.text}
