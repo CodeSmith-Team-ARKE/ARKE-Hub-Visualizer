@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import ChooseEC2 from './ChooseEC2.js';
-import ChooseMetric from './ChooseMetric.js';
+import ChooseMetric from './ChooseMetric.jsx';
 
 export default class PopupCreateDisplay extends Component {
  
   render() {
-    const { toggleEC2, closePopup } = this.props;
-    console.log('this.props.ec2Display: ', this.props.ec2Display);
+    const { toggleMetrics, toggleEC2, closePopup } = this.props;
+    // console.log('this.props.ec2Display: ', this.props.ec2Display);
     return (
       <div className="popup">
         <div className="popup_inner">
           
-        {this.props.ec2Display ? <ChooseMetric /> : <div className="services-container">
+        {this.props.ec2Display ? <ChooseMetric toggleMetrics={toggleMetrics} /> : 
+        <div className="services-container">
         <div className="services" onClick={toggleEC2}>
         Elastic Cloud Compute (EC2)
         </div>
@@ -27,6 +28,8 @@ export default class PopupCreateDisplay extends Component {
     );
   }
 }
+
+
 
 
 

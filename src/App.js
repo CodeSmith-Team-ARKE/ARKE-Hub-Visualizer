@@ -5,6 +5,7 @@ import PopupChooseEC2 from './components/PopupChooseEC2.jsx';
 import Chart from './components/EChartsView.jsx';
 import ChooseEC2 from './components/ChooseEC2.js';
 import EC2Static from './components/EC2Static.jsx';
+import ChooseMetric from './components/ChooseMetric';
 
 // This component is a frame for the other components and it is the parent component with state
 class App extends Component {
@@ -23,7 +24,7 @@ class App extends Component {
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.toggleEC2Display = this.toggleEC2Display.bind(this);
     this.getOption = this.getOption.bind(this);
-    this.toggleMetricDisplay = this.toggleMetricDisplay.bind(this);
+    this.toggleMetricsDisplay = this.toggleMetricsDisplay.bind(this);
   }
 
   componentWillMount() {
@@ -42,7 +43,8 @@ class App extends Component {
   // event handler to change state = {showCreateDisplay: true} upon user click
   toggleDisplay() {
     this.setState({
-      showCreateDisplay: !this.state.showCreateDisplay
+      showCreateDisplay: !this.state.showCreateDisplay,
+      ec2Display: false
     });
     console.log('Display shown');
   }
@@ -50,7 +52,7 @@ class App extends Component {
     this.setState({
       ec2Display: true
     });
-    console.log('this.state.eC2Display inside App toggle func: ', this.state.ec2Display);
+    // console.log('this.state.eC2Display inside App toggle func: ', this.state.ec2Display);
     // console.log(this.state.ec2Container);
   }
   getOption() {
@@ -75,9 +77,9 @@ class App extends Component {
     // console.log(this.state);
   }
 
-  toggleMetricDisplay() {
+  toggleMetricsDisplay() {
     this.setState({
-      metricDisplay: true
+      metricsDisplay: true
     });
     console.log('metrics toggled');
   }
@@ -85,7 +87,7 @@ class App extends Component {
   render() {
     const toggle = this.toggleDisplay;
     const toggleEC2 = this.toggleEC2Display;
-    const toggleMetrics = this.toggleMetricDisplay;
+    const toggleMetrics = this.toggleMetricsDisplay;
     const option = this.getOption;
     // const changeChartType = this.assignChartType;
 
@@ -95,7 +97,7 @@ class App extends Component {
         <div>
           {/* This creates the header and invisible header*/}
           <header className="App-header">
-            <h1 className="App-title">Welcome to the AWS: Team ARKE Project</h1>
+            <h1 className="App-title">Welcome to the AWS: ARKE Dashboard</h1>
           </header>
           <header className="invisible-header" />
         </div>
@@ -106,7 +108,7 @@ class App extends Component {
         </div>
         {/* This checks to see if a display is on or off and generates the popup display depending on the state */}
         {this.state.showCreateDisplay ? (
-          <PopupCreateDisplay {...this.state} closePopup={toggle} toggleEC2={toggleEC2} />
+          <PopupCreateDisplay {...this.state} closePopup={toggle} toggleEC2={toggleEC2} toggleMetrics={toggleMetrics}/>
           // <Popup closePopup={toggle} toggleEC2={toggleEC2} />
         ) : null}
 
@@ -121,8 +123,7 @@ class App extends Component {
                 {/* <Chart {...this.state} /> */}
               {/* </div>) : null}  */}
             </div>
-            
-
+            {this.state.displayMetrics ? <Chart /> : null}
           <div className="wrapper">
             {/* <div>Simple Storage Service (S3)</div> */}
           </div>
@@ -135,5 +136,7 @@ class App extends Component {
     );
   }
 }
+
+// {this.props.toggleMetric ? <EChartsView /> : null} >
 
 export default App;
