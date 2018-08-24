@@ -75,6 +75,38 @@ const ec2 = new AWS.EC2();
 //   }
 // });
 
+// $.get('data.json').done(function (data) {
+//   myChart.setOption({
+//       title: {
+//           text: 'asynchronous data loading example'
+//       },
+//       tooltip: {},
+//       legend: {
+//           data:['Sales']
+//       },
+//       xAxis: {
+//           data: ["shirts","cardigan","chiffon shirt","pants","heels","sockes"]
+//       },
+//       yAxis: {},
+//       series: [{
+//           name: 'Sales',
+//           type: 'bar',
+//           data: [5, 20, 36, 10, 10, 20]
+//       }]
+//   });
+// });
+
+// var params = {};
+// ec2.describeAccountAttributes(params, function(err, data) {
+//   if (err) console.log(err, err.stack);
+//   else {
+//     console.log('================EC2 Account Data Object============ \n', data);
+//     console.log(
+//       '================EC2 Data - Supported Platforms============ \n',
+//       data.AccountAttributes[0].AttributeValues
+//     );
+//   }
+// });
 // <==================== This information is requested when the page if first loaded ===================> //
 app.get('/info', function(req, res) {
   var params = {
@@ -88,7 +120,6 @@ app.get('/info', function(req, res) {
   ec2.describeInstances(params, function(err, data) {
     let allEC2Inst = [];
     let ec2Instance = {};
-
     if (err) console.log(err, err.stack);
     // an error occurred
     else {
@@ -108,8 +139,10 @@ app.get('/info', function(req, res) {
           LaunchTime: new Date(dataProps.LaunchTime)
         };
         allEC2Inst.push(ec2Instance);
+        
       }
     }
+    console.log(allEC2Inst);
     return res.json(allEC2Inst);
   });
 });
