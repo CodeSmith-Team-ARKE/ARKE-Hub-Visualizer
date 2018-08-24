@@ -10,9 +10,11 @@ class App extends Component {
     super(props);
     this.state = {
       showCreateDisplay: false, // Flag w/ boolean to display or not
+
       ec2Display: false, // Bool val to display ec2 button or not
       ec2Selected: false, // In the pop up when ec2 is selected this will happen
       ec2Container: null, // Pulls information from AWS SDK
+
       chartOption: null
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
@@ -100,7 +102,7 @@ class App extends Component {
             {this.state.ec2Display ? (
               <div>
                 <div>Elastic Cloud Computer (EC2)</div>
-                <EC2Static {...this.state} />
+                {/* <EC2Static {...this.state} /> */}
                 {/* <Chart {...this.state} /> */}
               </div>
             ) : null}
