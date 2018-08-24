@@ -1,19 +1,33 @@
 import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
+import GenerateChart from './GenerateChart.js';
 
-class ChooseMetric extends Component {
+export default class ChooseMetric extends Component {
 render() {
   return (
   <div>
-    <div className="button" onClick={func}>
+    <div className="popup_inner" >
+    <div className="services-container">
+      <div className="services" onClick={this.props.toggleMetrics}> 
+
+    {this.props.toggleMetric ? <GenerateChart /> : null}
+
+      <div >
       CPU
+      </div>
+    <div>
+      Networks-In
+    </div>
+    <div>
+      X Metric
+    </div>
+    <div>
+      Y Metric
     </div>
 
-    <div>
-    {this.state.showCreateDisplay ? (
-      <PopupChooseEC2 text="Close Me" closePopup={toggle} toggleEC2={toggleEC2} />
-    ) : null}
     </div>
+    </div>
+  </div>
   </div>
   )}
 }

@@ -2,6 +2,7 @@
   "name": "arke-visualizer",
   "description": "A simple visualizer for your AWS services in one location.",
   "version": "0.1.0",
+  "proxy": "http://localhost:8080",
   "private": true,
   "homepage": "https://github.com/CodeSmith-Team-ARKE/ARKE-Hub-Visualizer",
   "dependencies": {

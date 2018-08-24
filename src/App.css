@@ -1,24 +1,8 @@
-/* .App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-} */
 .App-title {
   font-size: 3em;
   color: teal;
 }
+
 .App-header {
   position: fixed;
   top: 0;
@@ -29,6 +13,7 @@
   text-align: center;
   z-index: 5;  /*brings header to front of z-index  - the higer the index the more front it is - we should figure out a way to make this consistant (should always be the one in front)*/
 }
+
 .invisible-header {
   /* background-color: green; */
   height: 130px;
@@ -38,7 +23,7 @@
 }
 
 .wrapper {
-  /* border: 10px solid teal; */
+  border: 10px solid teal;
   text-align: center;
   font-size: 50px;
   width: auto;
@@ -48,7 +33,9 @@
 }
 
 .EC2-contents {
+  text-align: left;
   margin: 10px 10px;
+  font-size: 20px;
 }
 
 .button {
@@ -106,6 +93,7 @@
 }
 
 .services {
+  cursor: pointer;
   position: relative;
   display: inline-block;
   padding: 0 auto;
