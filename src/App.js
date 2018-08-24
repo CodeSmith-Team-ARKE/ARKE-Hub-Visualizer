@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Popup from './components/popup.jsx';
 import Chart from './components/EChartsView.jsx';
-// import EC2Static from './components/EC2Static.jsx';
+import EC2Static from './components/EC2Static.jsx';
 
 class App extends Component {
   constructor(props) {
@@ -100,8 +100,8 @@ class App extends Component {
             {this.state.ec2Display ? (
               <div>
                 <div>Elastic Cloud Computer (EC2)</div>
-                {/* <EC2Static {...this.state} /> */}
-                <Chart {...this.state} />
+                <EC2Static {...this.state} />
+                {/* <Chart {...this.state} /> */}
               </div>
             ) : null}
           </div>

@@ -32,13 +32,10 @@ const ec2 = new AWS.EC2();
 //   else console.log(data);
 // });
 
-// const cloudwatch = new AWS.CloudWatch();
+const cloudwatch = new AWS.CloudWatch();
 
-// Pulls CPU Utilization Metric
+// // Pulls EC2 CPU Utilization Metrics
 // var params = {
-//   // StartTime: new Date('August 20, 2018 00:00:00'),
-//   // EndTime: new Date('August 21, 2018'),
-
 //   StartTime: new Date('Aug 20 2018 00:00 GMT-0400 (EST)'),
 //   EndTime: new Date(),
 //   MetricDataQueries: [
@@ -46,12 +43,12 @@ const ec2 = new AWS.EC2();
 //       Id: 'm1',
 //       MetricStat: {
 //         Metric: {
-//           Namespace: 'AWS/EC2', // Service name
-//           MetricName: 'CPUUtilization', // Metric name
+//           Namespace: 'AWS/EC2', // Service name !--Important--!
+//           MetricName: 'CPUUtilization', // NetworkIn || NetworkOut  !--Important--!
 //           Dimensions: [
 //             {
-//               Name: 'InstanceId', // Dimension Name
-//               Value: 'i-0df035ca3d920d241' // Dimension Value
+//               Name: 'InstanceId', // Dimension Name !--Important--!
+//               Value: 'i-0df035ca3d920d241' // Dimension Value !--Important--!
 //             }
 //           ]
 //         },

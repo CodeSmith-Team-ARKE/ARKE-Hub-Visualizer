@@ -16,7 +16,7 @@ class EC2View extends Component {
     console.log(this.props);
     const { chartOption } = this.props;
     return (
-      <div style={{ display: 'inline-block', width: '33%' }}>
+      <div>
         <ReactEcharts
           option={chartOption}
           notMerge={true}
