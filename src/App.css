@@ -11,7 +11,7 @@
   background-color: black;
   height: auto;
   text-align: center;
-  z-index: 5;  /*brings header to front of z-index  - the higer the index the more front it is - we should figure out a way to make this consistant (should always be the one in front)*/
+  z-index: 5; /*brings header to front of z-index  - the higer the index the more front it is - we should figure out a way to make this consistant (should always be the one in front)*/
 }
 
 .invisible-header {
@@ -37,15 +37,18 @@
   margin: 10px 10px;
   font-size: 20px;
 }
-
+.EC2-contents:hover {
+  background-color: yellow;
+}
 .button {
+  border: 3px solid red;
   background-color: #4caf50; /* Green */
-  border: none;
+  /* border: none; */
   color: white;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
-  margin: 0 auto 10px auto;
+  margin: 0 auto 0 auto;
   width: 100px;
   font-size: 16px;
   cursor: pointer;
@@ -71,6 +74,8 @@
   bottom: 20%;
   margin: auto;
   background: white;
+
+  /* scroll-bar */
 }
 
 .submit {
@@ -105,4 +110,31 @@
   /* border-top: 1px solid orange; */
   border-bottom: 1px solid black;
   width: 100%;
+}
+/* 
+.info {
+  overflow: hidden;
+} */
+
+.column {
+  text-align: center;
+  box-sizing: border-box;
+  /* top: 0; */
+  /* left: 0;
+  right: 0;
+  bottom: 0; */
+  float: left;
+  width: 50%;
+  /* padding: 10px; */
+  border: 1px solid orangered;
+  height: 440px;
+  overflow: auto;
+}
+.selectors {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  position: relative;
+  text-align: center;
+  border: 2px solid black;
 }

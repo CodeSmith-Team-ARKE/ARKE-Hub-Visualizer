@@ -32,13 +32,10 @@ const ec2 = new AWS.EC2();
 //   else console.log(data);
 // });
 
-// const cloudwatch = new AWS.CloudWatch();
+const cloudwatch = new AWS.CloudWatch();
 
-// Pulls CPU Utilization Metric
+// // Pulls EC2 CPU Utilization Metrics
 // var params = {
-//   // StartTime: new Date('August 20, 2018 00:00:00'),
-//   // EndTime: new Date('August 21, 2018'),
-
 //   StartTime: new Date('Aug 20 2018 00:00 GMT-0400 (EST)'),
 //   EndTime: new Date(),
 //   MetricDataQueries: [
@@ -46,12 +43,12 @@ const ec2 = new AWS.EC2();
 //       Id: 'm1',
 //       MetricStat: {
 //         Metric: {
-//           Namespace: 'AWS/EC2', // Service name
-//           MetricName: 'CPUUtilization', // Metric name
+//           Namespace: 'AWS/EC2', // Service name !--Important--!
+//           MetricName: 'CPUUtilization', // NetworkIn || NetworkOut  !--Important--!
 //           Dimensions: [
 //             {
-//               Name: 'InstanceId', // Dimension Name
-//               Value: 'i-0df035ca3d920d241' // Dimension Value
+//               Name: 'InstanceId', // Dimension Name !--Important--!
+//               Value: 'i-0df035ca3d920d241' // Dimension Value !--Important--!
 //             }
 //           ]
 //         },
@@ -72,39 +69,6 @@ const ec2 = new AWS.EC2();
 //     console.log(data); // successful response
 //     console.log(data.MetricDataResults[0].Values);
 //     console.log(data.MetricDataResults[0].Timestamps);
-//   }
-// });
-
-// $.get('data.json').done(function (data) {
-//   myChart.setOption({
-//       title: {
-//           text: 'asynchronous data loading example'
-//       },
-//       tooltip: {},
-//       legend: {
-//           data:['Sales']
-//       },
-//       xAxis: {
-//           data: ["shirts","cardigan","chiffon shirt","pants","heels","sockes"]
-//       },
-//       yAxis: {},
-//       series: [{
-//           name: 'Sales',
-//           type: 'bar',
-//           data: [5, 20, 36, 10, 10, 20]
-//       }]
-//   });
-// });
-
-// var params = {};
-// ec2.describeAccountAttributes(params, function(err, data) {
-//   if (err) console.log(err, err.stack);
-//   else {
-//     console.log('================EC2 Account Data Object============ \n', data);
-//     console.log(
-//       '================EC2 Data - Supported Platforms============ \n',
-//       data.AccountAttributes[0].AttributeValues
-//     );
 //   }
 // });
 // <==================== This information is requested when the page if first loaded ===================> //
@@ -136,10 +100,11 @@ app.get('/info', function(req, res) {
           Name: name,
           InstanceId: dataProps.InstanceId,
           InstanceType: dataProps.InstanceType,
-          LaunchTime: new Date(dataProps.LaunchTime)
+          LaunchTime: new Date(dataProps.LaunchTime),
+          graphType: null,
+          metricName: null
         };
         allEC2Inst.push(ec2Instance);
-        
       }
     }
     console.log(allEC2Inst);

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
 import PopupCreateDisplay from './components/PopupCreateDisplay.jsx';
-import PopupChooseEC2 from './components/PopupChooseEC2.jsx';
+// import PopupChooseEC2 from './components/PopupChooseEC2.jsx';
 import Chart from './components/EChartsView.jsx';
-import ChooseEC2 from './components/ChooseEC2.js';
-import EC2Static from './components/EC2Static.jsx';
-import ChooseMetric from './components/ChooseMetric';
+// import ChooseEC2 from './components/ChooseEC2.js';
+// import EC2Static from './components/EC2Static.jsx';
+// import ChooseMetric from './components/ChooseMetric';
 
 // This component is a frame for the other components and it is the parent component with state
 class App extends Component {
@@ -13,17 +13,24 @@ class App extends Component {
     super(props);
     this.state = {
       showCreateDisplay: false, // Flag w/ boolean to display or not
-
-      ec2Display: false, // Bool val to display ec2 button or not
-      ec2Selected: false, // In the pop up when ec2 is selected this will happen
+      ec2Display: false, // Flicks when EC2 is selected
       ec2Container: null, // Pulls information from AWS SDK
+      // [
+      //   {
+      //     Name: 'Sample',
+      //     InstanceId: '001',
+      //     InstanceType: 'Code',
+      //     LaunchTime: 'today',
+      //     metricName: '',
+      //     graphType: ''
+      //   }
+      // ],
+      chartOptions: null,
 
-      chartOption: null,
-      metricsDisplay: false,
+      metricsDisplay: false
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.toggleEC2Display = this.toggleEC2Display.bind(this);
-    this.getOption = this.getOption.bind(this);
     this.toggleMetricsDisplay = this.toggleMetricsDisplay.bind(this);
   }
 
@@ -33,12 +40,12 @@ class App extends Component {
         return res.json();
       })
       .then(info => {
-        // console.log(info);
+        console.log(info);
         this.setState({
           ec2Container: info
         });
       });
-      // console.log(this.state);
+    // console.log(this.state);
   }
   // event handler to change state = {showCreateDisplay: true} upon user click
   toggleDisplay() {
@@ -52,10 +59,9 @@ class App extends Component {
     this.setState({
       ec2Display: true
     });
-    // console.log('this.state.eC2Display inside App toggle func: ', this.state.ec2Display);
-    // console.log(this.state.ec2Container);
   }
-  getOption() {
+
+  toggleMetricsDisplay() {
     let chart = {
       title: { text: 'CPU Usage' },
       tooltip: {},
@@ -72,27 +78,21 @@ class App extends Component {
       ]
     };
     this.setState({
-      chartOptions: chart
-    });
-    // console.log(this.state);
-  }
-
-  toggleMetricsDisplay() {
-    this.setState({
+      chartOptions: chart,
+      ec2Display: false,
+      showCreateDisplay: false,
       metricsDisplay: true
     });
     console.log('metrics toggled');
+    // console.log(this.state.chartOptions);
   }
 
   render() {
     const toggle = this.toggleDisplay;
     const toggleEC2 = this.toggleEC2Display;
     const toggleMetrics = this.toggleMetricsDisplay;
-    const option = this.getOption;
-    // const changeChartType = this.assignChartType;
 
     return (
-      // className="App"
       <div>
         <div>
           {/* This creates the header and invisible header*/}
@@ -106,36 +106,38 @@ class App extends Component {
         <div className="button" onClick={toggle}>
           Create Display
         </div>
+
         {/* This checks to see if a display is on or off and generates the popup display depending on the state */}
         {this.state.showCreateDisplay ? (
-          <PopupCreateDisplay {...this.state} closePopup={toggle} toggleEC2={toggleEC2} toggleMetrics={toggleMetrics}/>
-          // <Popup closePopup={toggle} toggleEC2={toggleEC2} />
+          <PopupCreateDisplay
+            {...this.state}
+            closePopup={toggle}
+            toggleEC2={toggleEC2}
+            toggleMetrics={toggleMetrics}
+          />
         ) : null}
-
         {/*Metric display component, will display 3 graphs */}
 
-          <div className="wrapper">
-            {/* <div className="clear button">Clear</div> */}
-            {/* {this.state.ec2Display ? (
-              <div>
-                <div>Elastic Cloud Computer (EC2)</div>
-                <EC2Static {...this.state} />
-                {/* <Chart {...this.state} /> */}
-              {/* </div>) : null}  */}
+        <div className="wrapper">
+          {/* <div className="clear button">Clear</div> */}
+          {this.state.metricsDisplay ? (
+            <div>
+              <div>Elastic Cloud Computer (EC2)</div>
+              {/* <EC2Static {...this.state} /> */}
+              <Chart chartOption={this.state.chartOptions} />
             </div>
-            {this.state.displayMetrics ? <Chart /> : null}
-          <div className="wrapper">
-            {/* <div>Simple Storage Service (S3)</div> */}
-          </div>
-
-          <div className="wrapper">
-            {/* <div>Dynamo Database (DDB) </div> */}
-          </div>
+          ) : null}
         </div>
-      // </div>
+
+        <div className="wrapper">
+          {/* <div>Simple Storage Service (S3)</div> */}
+        </div>
+        <div className="wrapper">{/* <div>Dynamo Database (DDB) </div> */}</div>
+      </div>
     );
   }
 }
+//{...this.state}
 
 // {this.props.toggleMetric ? <EChartsView /> : null} >
 
