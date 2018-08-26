@@ -1,10 +1,4 @@
 import React, { Component } from 'react';
-// import echarts from 'echarts';
-// // 引入柱状图
-// import  'echarts/lib/chart/bar';
-// // 引入提示框和标题组件
-// import 'echarts/lib/component/tooltip';
-// import 'echarts/lib/component/title';
 import ReactEcharts from 'echarts-for-react';
 
 //set up similar to tic tac toe

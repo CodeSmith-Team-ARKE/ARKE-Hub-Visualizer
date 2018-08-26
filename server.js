@@ -71,7 +71,6 @@ const cloudwatch = new AWS.CloudWatch();
 //     console.log(data.MetricDataResults[0].Timestamps);
 //   }
 // });
-
 // <==================== This information is requested when the page if first loaded ===================> //
 app.get('/info', function(req, res) {
   var params = {
@@ -85,7 +84,6 @@ app.get('/info', function(req, res) {
   ec2.describeInstances(params, function(err, data) {
     let allEC2Inst = [];
     let ec2Instance = {};
-
     if (err) console.log(err, err.stack);
     // an error occurred
     else {
@@ -102,11 +100,14 @@ app.get('/info', function(req, res) {
           Name: name,
           InstanceId: dataProps.InstanceId,
           InstanceType: dataProps.InstanceType,
-          LaunchTime: new Date(dataProps.LaunchTime)
+          LaunchTime: new Date(dataProps.LaunchTime),
+          graphType: null,
+          metricName: null
         };
         allEC2Inst.push(ec2Instance);
       }
     }
+    console.log(allEC2Inst);
     return res.json(allEC2Inst);
   });
 });

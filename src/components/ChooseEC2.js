@@ -1,0 +1,22 @@
+import React, { Component } from 'react';
+import PopupChooseEC2 from './PopupChooseEC2.jsx';
+
+class ChooseEC2 extends Component {
+
+    render() {
+        console.log('rendering PopupChooseEC2 in ChooseEC2 file');
+        return (
+            <div className="button" onClick={this.toggleEC2Display}> 
+            
+            <PopupChooseEC2 />
+
+            {/* {this.state.showCreateDisplay ? (
+          <PopupChooseEC2 text="Close Me" closePopup={toggle} toggleEC2={toggleEC2} />
+        ) : null} */}
+            
+            </div>
+        )
+    }
+}
+
+export default ChooseEC2;
