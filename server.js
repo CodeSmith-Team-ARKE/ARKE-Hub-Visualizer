@@ -100,9 +100,9 @@ app.get('/info', function(req, res) {
           Name: name,
           InstanceId: dataProps.InstanceId,
           InstanceType: dataProps.InstanceType,
-          LaunchTime: new Date(dataProps.LaunchTime),
-          graphType: null,
-          metricName: null
+          LaunchTime: new Date(dataProps.LaunchTime)
+          // graphType: null,
+          // metricName: null
         };
         allEC2Inst.push(ec2Instance);
       }
