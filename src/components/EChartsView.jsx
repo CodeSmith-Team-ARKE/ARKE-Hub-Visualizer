@@ -7,7 +7,7 @@ import ReactEcharts from 'echarts-for-react';
 
 class EC2View extends Component {
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     const { chartOption } = this.props;
     return (
       <div>
