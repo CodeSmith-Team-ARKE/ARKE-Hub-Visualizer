@@ -119,6 +119,33 @@ class App extends Component {
   }
 
   toggleGraphDisplay() {
+    fetch('http://localhost:8080/secret', {
+      mode: 'cors',
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: {
+        message: 'Hello from the react app'
+      }
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(info => {
+        console.log(info);
+      });
+    //   console.log('info in toggleGraphDisplay(): ', info);
+    //   this.setState({
+    //     ec2Container: info,
+    //     ec2Display: true,
+    //     selectedOptions: {
+    //       ...this.state.selectedOptions,
+    //       serviceName: 'AWS/EC2'
+    //     }
+    //   });
+    // });
+
+    //
+
     const metricName = this.state.selectedOptions.metricName;
     const graphType = this.state.selectedOptions.graphType;
 

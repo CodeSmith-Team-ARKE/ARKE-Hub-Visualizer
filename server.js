@@ -6,9 +6,10 @@ const app = express();
 // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Config.html
 const AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-east-2' });
-
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
@@ -101,8 +102,6 @@ app.get('/info', function(req, res) {
           InstanceId: dataProps.InstanceId,
           InstanceType: dataProps.InstanceType,
           LaunchTime: new Date(dataProps.LaunchTime)
-          // graphType: null,
-          // metricName: null
         };
         allEC2Inst.push(ec2Instance);
       }
@@ -110,6 +109,12 @@ app.get('/info', function(req, res) {
     console.log(allEC2Inst);
     return res.json(allEC2Inst);
   });
+});
+
+app.all('/secret', (req, res, next) => {
+  // app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+  console.log(req.body);
+  return res.json('Hello from the server');
 });
 
 app.listen(process.env.PORT || 8080);
