@@ -15,6 +15,7 @@ class App extends Component {
       showCreateDisplay: false, // Flag w/ boolean to display or not
       ec2Display: false, // Flicks when EC2 is selected
       ec2Container: null, // Pulls information from AWS SDK
+      ec2Charts: [],
       selectedOptions: {
         serviceName: '',
         instanceName: '',
@@ -105,7 +106,7 @@ class App extends Component {
   }
 
   toggleGraphDisplay() {
-    fetch('http://localhost:8080/EC2-data', {
+    fetch('http://localhost:8080/metric-data', {
       mode: 'cors',
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -129,9 +130,12 @@ class App extends Component {
         // console.log(humanDates);
         const metricName = this.state.selectedOptions.metricName;
         const graphType = this.state.selectedOptions.graphType;
+        const instanceName = this.state.selectedOptions.instanceName;
 
         let chart = {
-          title: { text: metricName }, // can be filled in
+          title: {
+            text: 'Metric: ' + metricName + '\nInstance Name: ' + instanceName
+          }, // can be filled in
           tooltip: {},
           xAxis: {
             data: humanDates
@@ -145,10 +149,11 @@ class App extends Component {
             }
           ]
         };
-
         if (!metricName || !graphType) {
           console.log('Please select a Metric name and Graph type');
         } else {
+          // console.log(chart);
+          this.state.ec2Charts.push(chart);
           this.setState({
             chartOptions: chart,
             ec2Display: false,
@@ -156,6 +161,10 @@ class App extends Component {
             metricsDisplay: true
           });
           // console.log(this.state.selectedOptions);
+          console.log(this.state.ec2Charts);
+
+          // console.log(this.state.ec2Charts);
+          // console.log(this.state.ec2Charts.length);
         }
       });
   }
@@ -168,6 +177,9 @@ class App extends Component {
     const selectedGraphOptions = this.selectedGraphOptions;
     const selectedInstance = this.selectedInstance;
 
+    const allec2Charts = this.state.ec2Charts.map(chartOption => {
+      return <Chart key={chartOption.length} chartOption={chartOption} />;
+    });
     return (
       <div>
         <div>
@@ -199,11 +211,11 @@ class App extends Component {
 
         <div className="wrapper">
           {/* <div className="clear button">Clear</div> */}
-          {this.state.metricsDisplay ? (
+          {this.state.ec2Charts.length > 0 ? (
             <div>
               <div>Elastic Cloud Computer (EC2)</div>
               {/* <EC2Static {...this.state} /> */}
-              <Chart chartOption={this.state.chartOptions} />
+              {allec2Charts}
             </div>
           ) : null}
         </div>
@@ -211,7 +223,14 @@ class App extends Component {
         <div className="wrapper">
           {/* <div>Simple Storage Service (S3)</div> */}
         </div>
-        <div className="wrapper">{/* <div>Dynamo Database (DDB) </div> */}</div>
+        <div className="wrapper">
+          {/* {this.state.rdsRendered ? (
+            <div>
+              <div>Relational Database Service (RDS) </div>
+              <Chart chartOption={this.state.chartOptions} />
+            </div>
+          ) : null} */}
+        </div>
       </div>
     );
   }
