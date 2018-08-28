@@ -15,19 +15,6 @@ class App extends Component {
       showCreateDisplay: false, // Flag w/ boolean to display or not
       ec2Display: false, // Flicks when EC2 is selected
       ec2Container: null, // Pulls information from AWS SDK
-      // [
-      //   {
-      //     ServiceName: 'AWS/EC2',
-      //     // /<-- Namespace --> // SDK Call
-      //     Name: 'Sample',
-      //     InstanceId: '001',
-      //     InstanceType: 'Code',
-      //     LaunchTime: 'today'
-      //     // metricName: '',
-      //     // graphType: ''
-      //   }
-      // ],
-      // selectedInstance: null,
       selectedOptions: {
         serviceName: '',
         instanceName: '',
@@ -61,24 +48,6 @@ class App extends Component {
     });
     // console.log('Display shown');
     // console.log('Current State', this.state);
-  }
-
-  selectEC2() {
-    fetch('http://localhost:8080/info', { mode: 'cors' })
-      .then(res => {
-        return res.json();
-      })
-      .then(info => {
-        // console.log(info);
-        this.setState({
-          ec2Container: info,
-          ec2Display: true,
-          selectedOptions: {
-            ...this.state.selectedOptions,
-            serviceName: 'AWS/EC2'
-          }
-        });
-      });
   }
 
   selectedMetricOptions(value) {
@@ -117,72 +86,78 @@ class App extends Component {
     // console.log(value.InstanceId);
     console.log(this.state.selectedOptions);
   }
+  selectEC2() {
+    fetch('http://localhost:8080/EC2info', { mode: 'cors' })
+      .then(res => {
+        return res.json();
+      })
+      .then(info => {
+        // console.log(info);
+        this.setState({
+          ec2Container: info,
+          ec2Display: true,
+          selectedOptions: {
+            ...this.state.selectedOptions,
+            serviceName: 'AWS/EC2'
+          }
+        });
+      });
+  }
 
   toggleGraphDisplay() {
-    fetch('http://localhost:8080/secret', {
+    fetch('http://localhost:8080/EC2-data', {
       mode: 'cors',
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
-      body: {
-        message: 'Hello from the react app'
-      }
+      body: JSON.stringify({
+        selectedOptions: {
+          ...this.state.selectedOptions
+        }
+      })
     })
       .then(res => {
         return res.json();
       })
       .then(info => {
-        console.log(info);
-      });
-    //   console.log('info in toggleGraphDisplay(): ', info);
-    //   this.setState({
-    //     ec2Container: info,
-    //     ec2Display: true,
-    //     selectedOptions: {
-    //       ...this.state.selectedOptions,
-    //       serviceName: 'AWS/EC2'
-    //     }
-    //   });
-    // });
+        const humanDates = info.Timestamps.map(interval => {
+          return new Date(interval);
+        });
+        const parsedValues = info.Values.map(value => {
+          return Number.parseFloat(value).toFixed(2);
+        });
+        // console.log(parsedValues);
+        // console.log(humanDates);
+        const metricName = this.state.selectedOptions.metricName;
+        const graphType = this.state.selectedOptions.graphType;
 
-    //
+        let chart = {
+          title: { text: metricName }, // can be filled in
+          tooltip: {},
+          xAxis: {
+            data: humanDates
+          },
+          yAxis: {},
+          series: [
+            {
+              name: 'Time',
+              type: graphType, // can be filled in
+              data: parsedValues
+            }
+          ]
+        };
 
-    const metricName = this.state.selectedOptions.metricName;
-    const graphType = this.state.selectedOptions.graphType;
-
-    let chart = {
-      title: { text: metricName }, // can be filled in
-      tooltip: {},
-      xAxis: {
-        data: [
-          '2018-08-27T15:10:00.000Z',
-          '15:10:15',
-          '15:10:30',
-          '15:10:45',
-          '15:11:00',
-          '15:11:15',
-          '15:11:30'
-        ]
-      },
-      yAxis: {},
-      series: [
-        {
-          name: 'Time',
-          type: graphType, // can be filled in
-          data: [5, 20, 36, 10, 10, 20, 100]
+        if (!metricName || !graphType) {
+          console.log('Please select a Metric name and Graph type');
+        } else {
+          this.setState({
+            chartOptions: chart,
+            ec2Display: false,
+            showCreateDisplay: false,
+            metricsDisplay: true
+          });
+          // console.log(this.state.selectedOptions);
         }
-      ]
-    };
-    if (!metricName || !graphType) {
-      console.log('Please select a Metric name and Graph type');
-    } else {
-      this.setState({
-        chartOptions: chart,
-        ec2Display: false,
-        showCreateDisplay: false,
-        metricsDisplay: true
       });
-      console.log(this.state.selectedOptions);
-    }
   }
 
   render() {
