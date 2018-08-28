@@ -39,6 +39,7 @@
 }
 .EC2-contents:hover {
   background-color: yellow;
+  cursor:pointer;
 }
 .button {
   border: 3px solid red;
@@ -48,11 +49,13 @@
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
-  margin: 0 auto 0 auto;
+  margin: 3% auto 3% auto;
   width: 100px;
   font-size: 16px;
   cursor: pointer;
 }
+
+
 
 .popup {
   position: fixed;
@@ -64,7 +67,11 @@
   bottom: 0;
   margin: auto;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 2;
+  z-index: 10;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
 }
 .popup_inner {
   position: fixed;
@@ -72,8 +79,13 @@
   right: 20%;
   top: 20%;
   bottom: 20%;
+  max-height:100%;
+  min-height:70%;
   margin: auto;
   background: white;
+  overflow:scroll;
+  
+  
 
   /* scroll-bar */
 }
@@ -82,11 +94,16 @@
   position: absolute;
   line-height: 100px;
   vertical-align: middle;
-  height: 100px;
+  height: 10%;
   bottom: 0;
   margin: 0;
-  width: 100%;
+  right:0px;
+  width: 25%;
   padding: 0 !important;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  
 }
 
 .services-container {
@@ -126,9 +143,24 @@
   float: left;
   width: 50%;
   /* padding: 10px; */
-  border: 1px solid orangered;
-  height: 440px;
+  border: 1px solid purple;
+  max-height: 100%;
   overflow: auto;
+
+}
+.column-info{
+  max-width:100%;
+  max-height:100%;
+  overflow:scroll;
+}
+.info-child-div{
+  max-width: 100%;
+  max-height: 100%;
+}
+.render-static{
+  overflow:scroll;
+  max-height:100%;
+  max-width:100%;
 }
 .selectors {
   display: flex;
@@ -137,4 +169,8 @@
   position: relative;
   text-align: center;
   border: 2px solid black;
+}
+
+.selected{
+  background-color:blue !important;
 }

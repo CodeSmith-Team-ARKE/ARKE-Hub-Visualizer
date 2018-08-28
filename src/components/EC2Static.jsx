@@ -6,15 +6,11 @@ export default class EC2Static extends Component {
     const { selectedInstance } = this.props;
     const mappedEC2List = this.props.ec2Container.map(instance => {
       return (
-<<<<<<< HEAD
-        <div className="EC2-contents" key={instance.InstanceId}>
-=======
         <div
           className="EC2-contents"
           key={instance.Name}
           onClick={() => selectedInstance(instance)}
         >
->>>>>>> de70add6ad311c044b8ad68e298bf251a98ab789
           Name: {instance.Name}
           <br />
           Instance ID: {instance.InstanceId}
@@ -29,7 +25,7 @@ export default class EC2Static extends Component {
     });
 
     // console.log(this.props);
-    return <div>{mappedEC2List}</div>;
+    return <div className="render-static">{mappedEC2List}</div>;
   }
 }
 

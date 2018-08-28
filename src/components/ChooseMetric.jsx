@@ -13,7 +13,7 @@ export default class ChooseMetric extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className="info-child-div">
         <div className="column info">
           Your EC2 Basic information | Choose Instance Below
           <EC2Static {...this.props} selectedInstance={selectedInstance} />
