@@ -15,83 +15,171 @@ class App extends Component {
       showCreateDisplay: false, // Flag w/ boolean to display or not
       ec2Display: false, // Flicks when EC2 is selected
       ec2Container: null, // Pulls information from AWS SDK
-      // [
-      //   {
-      //     Name: 'Sample',
-      //     InstanceId: '001',
-      //     InstanceType: 'Code',
-      //     LaunchTime: 'today',
-      //     metricName: '',
-      //     graphType: ''
-      //   }
-      // ],
-      chartOptions: null,
-
+      ec2Charts: [],
+      selectedOptions: {
+        serviceName: '',
+        instanceName: '',
+        instanceId: '',
+        metricName: '',
+        graphType: ''
+      },
+      // chartOptions: null,
       metricsDisplay: false
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
-    this.toggleEC2Display = this.toggleEC2Display.bind(this);
-    this.toggleMetricsDisplay = this.toggleMetricsDisplay.bind(this);
+    this.selectEC2 = this.selectEC2.bind(this);
+    this.toggleGraphDisplay = this.toggleGraphDisplay.bind(this);
+    this.selectedMetricOptions = this.selectedMetricOptions.bind(this);
+    this.selectedGraphOptions = this.selectedGraphOptions.bind(this);
+    this.selectedInstance = this.selectedInstance.bind(this);
   }
 
-  componentWillMount() {
-    fetch('http://localhost:8080/info', { mode: 'cors' })
-      .then(res => {
-        return res.json();
-      })
-      .then(info => {
-        console.log(info);
-        this.setState({
-          ec2Container: info
-        });
-      });
-    // console.log(this.state);
-  }
   // event handler to change state = {showCreateDisplay: true} upon user click
   toggleDisplay() {
     this.setState({
       showCreateDisplay: !this.state.showCreateDisplay,
-      ec2Display: false
+      ec2Display: false,
+      selectedOptions: {
+        serviceName: '',
+        instanceName: '',
+        instanceId: '',
+        metricName: '',
+        graphType: ''
+      }
     });
-    console.log('Display shown');
-  }
-  toggleEC2Display() {
-    this.setState({
-      ec2Display: true
-    });
+    // console.log('Display shown');
+    // console.log('Current State', this.state);
   }
 
-  toggleMetricsDisplay() {
-    let chart = {
-      title: { text: 'CPU Usage' },
-      tooltip: {},
-      xAxis: {
-        data: ['Mon', 'Tues', 'Weds', 'Thurs', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {},
-      series: [
-        {
-          name: 'Time',
-          type: 'bar',
-          data: [5, 20, 36, 10, 10, 20, 100]
-        }
-      ]
-    };
+  selectedMetricOptions(value) {
     this.setState({
-      chartOptions: chart,
-      ec2Display: false,
-      showCreateDisplay: false,
-      metricsDisplay: true
+      selectedOptions: {
+        ...this.state.selectedOptions,
+        metricName: value
+      }
     });
-    console.log('metrics toggled');
-    // console.log(this.state.chartOptions);
+    // console.log(this.state.selectedOptions);
+    // console.log(value);
+  }
+
+  selectedGraphOptions(value) {
+    this.setState({
+      selectedOptions: {
+        ...this.state.selectedOptions,
+        graphType: value
+      }
+    });
+    // console.log(this.state.selectedOptions);
+    // console.log(value);
+  }
+
+  selectedInstance(value) {
+    this.setState({
+      selectedOptions: {
+        ...this.state.selectedOptions,
+        instanceName: value.Name,
+        instanceId: value.InstanceId
+      }
+    });
+    // console.log(this.state.selectedOptions);
+    // console.log('This is the value of the div being selected', value);
+    // console.log(value.Name);
+    // console.log(value.InstanceId);
+    console.log(this.state.selectedOptions);
+  }
+  selectEC2() {
+    fetch('http://localhost:8080/EC2info', { mode: 'cors' })
+      .then(res => {
+        return res.json();
+      })
+      .then(info => {
+        // console.log(info);
+        this.setState({
+          ec2Container: info,
+          ec2Display: true,
+          selectedOptions: {
+            ...this.state.selectedOptions,
+            serviceName: 'AWS/EC2'
+          }
+        });
+      });
+  }
+
+  toggleGraphDisplay() {
+    fetch('http://localhost:8080/metric-data', {
+      mode: 'cors',
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        selectedOptions: {
+          ...this.state.selectedOptions
+        }
+      })
+    })
+      .then(res => {
+        return res.json();
+      })
+      .then(info => {
+        const humanDates = info.Timestamps.map(interval => {
+          return new Date(interval);
+        });
+        const parsedValues = info.Values.map(value => {
+          return Number.parseFloat(value).toFixed(2);
+        });
+        // console.log(parsedValues);
+        // console.log(humanDates);
+        const metricName = this.state.selectedOptions.metricName;
+        const graphType = this.state.selectedOptions.graphType;
+        const instanceName = this.state.selectedOptions.instanceName;
+
+        let chart = {
+          title: {
+            text: 'Metric: ' + metricName + '\nInstance Name: ' + instanceName
+          }, // can be filled in
+          tooltip: {},
+          xAxis: {
+            data: humanDates
+          },
+          yAxis: {},
+          series: [
+            {
+              name: 'Time',
+              type: graphType, // can be filled in
+              data: parsedValues
+            }
+          ]
+        };
+        if (!metricName || !graphType) {
+          console.log('Please select a Metric name and Graph type');
+        } else {
+          // console.log(chart);
+          this.state.ec2Charts.push(chart);
+          this.setState({
+            chartOptions: chart,
+            ec2Display: false,
+            showCreateDisplay: false,
+            metricsDisplay: true
+          });
+          // console.log(this.state.selectedOptions);
+          console.log(this.state.ec2Charts);
+
+          // console.log(this.state.ec2Charts);
+          // console.log(this.state.ec2Charts.length);
+        }
+      });
   }
 
   render() {
     const toggle = this.toggleDisplay;
-    const toggleEC2 = this.toggleEC2Display;
-    const toggleMetrics = this.toggleMetricsDisplay;
+    const selectEC2 = this.selectEC2;
+    const toggleGraphDisplay = this.toggleGraphDisplay;
+    const selectedMetricOptions = this.selectedMetricOptions;
+    const selectedGraphOptions = this.selectedGraphOptions;
+    const selectedInstance = this.selectedInstance;
 
+    const allec2Charts = this.state.ec2Charts.map(chartOption => {
+      return <Chart key={chartOption.length} chartOption={chartOption} />;
+    });
     return (
       <div>
         <div>
@@ -112,19 +200,22 @@ class App extends Component {
           <PopupCreateDisplay
             {...this.state}
             closePopup={toggle}
-            toggleEC2={toggleEC2}
-            toggleMetrics={toggleMetrics}
+            selectEC2={selectEC2}
+            toggleGraphDisplay={toggleGraphDisplay}
+            selectedMetricOptions={selectedMetricOptions}
+            selectedGraphOptions={selectedGraphOptions}
+            selectedInstance={selectedInstance}
           />
         ) : null}
         {/*Metric display component, will display 3 graphs */}
 
         <div className="wrapper">
           {/* <div className="clear button">Clear</div> */}
-          {this.state.metricsDisplay ? (
+          {this.state.ec2Charts.length > 0 ? (
             <div>
               <div>Elastic Cloud Computer (EC2)</div>
               {/* <EC2Static {...this.state} /> */}
-              <Chart chartOption={this.state.chartOptions} />
+              {allec2Charts}
             </div>
           ) : null}
         </div>
@@ -132,13 +223,17 @@ class App extends Component {
         <div className="wrapper">
           {/* <div>Simple Storage Service (S3)</div> */}
         </div>
-        <div className="wrapper">{/* <div>Dynamo Database (DDB) </div> */}</div>
+        <div className="wrapper">
+          {/* {this.state.rdsRendered ? (
+            <div>
+              <div>Relational Database Service (RDS) </div>
+              <Chart chartOption={this.state.chartOptions} />
+            </div>
+          ) : null} */}
+        </div>
       </div>
     );
   }
 }
-//{...this.state}
-
-// {this.props.toggleMetric ? <EChartsView /> : null} >
 
 export default App;
