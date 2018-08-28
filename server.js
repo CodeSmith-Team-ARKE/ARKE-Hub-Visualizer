@@ -3,9 +3,12 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 
+function useAccessObject (accessObject){
+
+
 // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Config.html
 const AWS = require('aws-sdk');
-AWS.config.update({ region: 'us-east-2' });
+AWS.config.update(accessObject);
 
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'build')));
@@ -178,7 +181,27 @@ app.post('/metric-data', (req, res, next) => {
   // return res.json(req.body.selectedOptions);
 });
 
-app.listen(process.env.PORT || 8080);
-console.log('Production build running on ' + 8080);
+app.listen(process.env.PORT || 8080, (err) => {
+  if(err) throw err;
+
+console.log('your arke dashboard is now hosted on localhost 8000')
+console.log('please open a new terminal and run npm start to render your dash')
+console.log('     *  * ** ** * * *          * *      ** *             **    *')
+console.log(' * *  **       * *     **  * ** *  ** **  * *        **    **')
+console.log('* *         *        *   *  *                **  ***       *')
+console.log('     *     *    *                        *       *          ')
+console.log('       *    * *      *                       *     ')
+console.log('                                       * *   *     *     *')
+console.log('  *       *       *         *           **')
+console.log('        *              *     *     *      *          *')
+console.log(' *             *        *         *   *    *')
+console.log('                                 *')
+console.log('*            *                             *    *          *')
+console.log('   *  *          *  *      *   *')
+});
+
+}
+
+module.exports = useAccessObject;
 
 //process.env.PORT ||
