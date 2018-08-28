@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EC2Static from './EC2Static.jsx';
+import RDSStatic from './RDSStatic.jsx';
 // import ReactEcharts from 'echarts-for-react';
 // import EChartsView from './EChartsView.jsx';
 
@@ -15,31 +16,69 @@ export default class ChooseMetric extends Component {
     return (
       <div>
         <div className="column info">
-          Your EC2 Basic information | Choose Instance Below
-          <EC2Static {...this.props} selectedInstance={selectedInstance} />
+          {this.props.ec2Display ? (
+            <div>
+              Your EC2 Basic information | Choose Instance Below
+              <EC2Static {...this.props} selectedInstance={selectedInstance} />
+            </div>
+          ) : null}
+          {this.props.rdsDisplay ? (
+            <div>
+              Your RDS Basic information | Choose Instance Below
+              <RDSStatic {...this.props} selectedInstance={selectedInstance} />
+            </div>
+          ) : null}
         </div>
         <div className="column">
           Select Metrics here
-          <div className="selectors">
-            <div
-              className="button"
-              onClick={() => selectedMetricOptions('CPUUtilization')}
-            >
-              CPU Usage
+          {this.props.ec2Display ? (
+            <div className="selectors">
+              <div
+                className="button"
+                onClick={() => selectedMetricOptions('CPUUtilization')}
+              >
+                CPU Usage
+              </div>
+
+              <div
+                className="button"
+                onClick={() => selectedMetricOptions('NetworkIn')}
+              >
+                Network-In
+              </div>
+
+              <div
+                className="button"
+                onClick={() => selectedMetricOptions('NetworkOut')}
+              >
+                Network-Out
+              </div>
             </div>
-            <div
-              className="button"
-              onClick={() => selectedMetricOptions('NetworkIn')}
-            >
-              Network-In
+          ) : null}
+          {this.props.rdsDisplay ? (
+            <div className="selectors">
+              <div
+                className="button"
+                onClick={() => selectedMetricOptions('CPUUtilization')}
+              >
+                CPU Usage
+              </div>
+
+              {/* <div
+                className="button"
+                onClick={() => selectedMetricOptions('ReadIOPS')}
+              >
+                Read Input/Output per second
+              </div>
+
+              <div
+                className="button"
+                onClick={() => selectedMetricOptions('WriteIOPS')}
+              >
+                Write Input/Output per second
+              </div> */}
             </div>
-            <div
-              className="button"
-              onClick={() => selectedMetricOptions('NetworkOut')}
-            >
-              Network-Out
-            </div>
-          </div>
+          ) : null}
           <br />
           Select View Type here
           <div className="selectors">

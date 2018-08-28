@@ -32,12 +32,12 @@
   margin-bottom: 10px;
 }
 
-.EC2-contents {
+.contents {
   text-align: left;
   margin: 10px 10px;
   font-size: 20px;
 }
-.EC2-contents:hover {
+.contents:hover {
   background-color: yellow;
 }
 .button {
