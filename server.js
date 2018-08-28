@@ -39,48 +39,48 @@ const cloudwatch = new AWS.CloudWatch();
 // logs the current S3 buckets
 var s3 = new AWS.S3();
 
-s3.listBuckets({}, function(err, data) {
-  if (err) console.log(err, err.stack);
-  else {
-    var params = {
-      StartTime: new Date('Aug 20 2018 00:00 GMT-0400 (EST)'),
-      EndTime: new Date(),
-      MetricDataQueries: [
-        {
-          Id: 's3m1',
-          MetricStat: {
-            Metric: {
-              Namespace: 'AWS/S3', // AWS/ EC2 || S3 !--Important--!
-              MetricName: 'BytesUploaded', // NetworkIn || NetworkOut || CPUUtilization  !--Important--!
-              Dimensions: [
-                {
-                  Name: 'BucketName', // Dimension Name !--Important--!
-                  Value: 'test-bucket-for-node-manipulation' // Dimension Value !--Important--!
-                }
-              ]
-            },
-            Period: 3600, // 60 min intervals - period works in 1 second increments
+// s3.listBuckets({}, function(err, data) {
+//   if (err) console.log(err, err.stack);
+//   else {
+//     var params = {
+//       StartTime: new Date('Aug 20 2018 00:00 GMT-0400 (EST)'),
+//       EndTime: new Date(),
+//       MetricDataQueries: [
+//         {
+//           Id: 's3m1',
+//           MetricStat: {
+//             Metric: {
+//               Namespace: 'AWS/S3', // AWS/ EC2 || S3 !--Important--!
+//               MetricName: 'BytesUploaded', // NetworkIn || NetworkOut || CPUUtilization  !--Important--!
+//               Dimensions: [
+//                 {
+//                   Name: 'BucketName', // Dimension Name !--Important--!
+//                   Value: 'test-bucket-for-node-manipulation' // Dimension Value !--Important--!
+//                 }
+//               ]
+//             },
+//             Period: 3600, // 60 min intervals - period works in 1 second increments
 
-            Stat: 'Average', // Statistic Type
-            Unit: 'Bytes' // Unit Type
-          }
-        }
-      ],
-      MaxDatapoints: 24
-    };
-    cloudwatch.getMetricData(params, function(err, data) {
-      if (err) console.log(err, err.stack);
-      // an error occurred
-      else {
-        console.log(data);
-        // console.log(data.MetricDataResults[0]); // successful response
-        // console.log(data.MetricDataResults[0].Values);
-        // console.log(data.MetricDataResults[0].Timestamps);
-        // return res.json(data.MetricDataResults[0]);
-      }
-    });
-  }
-});
+//             Stat: 'Average', // Statistic Type
+//             Unit: 'Bytes' // Unit Type
+//           }
+//         }
+//       ],
+//       MaxDatapoints: 24
+//     };
+//     cloudwatch.getMetricData(params, function(err, data) {
+//       if (err) console.log(err, err.stack);
+//       // an error occurred
+//       else {
+//         console.log(data);
+//         // console.log(data.MetricDataResults[0]); // successful response
+//         // console.log(data.MetricDataResults[0].Values);
+//         // console.log(data.MetricDataResults[0].Timestamps);
+//         // return res.json(data.MetricDataResults[0]);
+//       }
+//     });
+//   }
+// });
 
 // <==================== This information is requested when the page if first loaded ===================> //
 app.get('/EC2info', function(req, res) {
