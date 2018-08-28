@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 
-export default class EC2Static extends Component {
+export default class RDSStatic extends Component {
   // onClick={() => selectedInstance(this.instance)}
   render() {
     const { selectedInstance } = this.props;
-    const mappedEC2List = this.props.ec2Container.map(instance => {
+    const mappedRDSList = this.props.rdsContainer.map(instance => {
       return (
         <div
           className="contents"
-          key={instance.Name}
+          key={instance.DBInstanceIdentifier}
           onClick={() => selectedInstance(instance)}
         >
-          Name: {instance.Name}
+          Name: {instance.DBInstanceIdentifier}
           <br />
-          Instance ID: {instance.InstanceId}
+          Class Type: {instance.instanceClass}
           <br />
-          Instance Type: {instance.InstanceType}
-          <br />
-          Date Launched: {instance.LaunchTime}
+          Engine: {instance.Engine}
           <br />
           {/* {console.log(this.instance)} */}
         </div>
@@ -25,7 +23,7 @@ export default class EC2Static extends Component {
     });
 
     // console.log(this.props);
-    return <div>{mappedEC2List}</div>;
+    return <div>{mappedRDSList}</div>;
   }
 }
 

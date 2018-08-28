@@ -13,9 +13,15 @@ class App extends Component {
     super(props);
     this.state = {
       showCreateDisplay: false, // Flag w/ boolean to display or not
+
       ec2Display: false, // Flicks when EC2 is selected
       ec2Container: null, // Pulls information from AWS SDK
       ec2Charts: [],
+
+      rdsDisplay: false,
+      rdsContainer: null,
+      rdsCharts: [],
+
       selectedOptions: {
         serviceName: '',
         instanceName: '',
@@ -27,7 +33,10 @@ class App extends Component {
       metricsDisplay: false
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
+
     this.selectEC2 = this.selectEC2.bind(this);
+    this.selectRDS = this.selectRDS.bind(this);
+
     this.toggleGraphDisplay = this.toggleGraphDisplay.bind(this);
     this.selectedMetricOptions = this.selectedMetricOptions.bind(this);
     this.selectedGraphOptions = this.selectedGraphOptions.bind(this);
@@ -36,17 +45,19 @@ class App extends Component {
 
   // event handler to change state = {showCreateDisplay: true} upon user click
   toggleDisplay() {
-    this.setState({
-      showCreateDisplay: !this.state.showCreateDisplay,
+    this.setState(prevState => ({
+      showCreateDisplay: !prevState.showCreateDisplay,
       ec2Display: false,
+      rdsDisplay: false,
       selectedOptions: {
         serviceName: '',
+        instanceParam: '',
         instanceName: '',
         instanceId: '',
         metricName: '',
         graphType: ''
       }
-    });
+    }));
     // console.log('Display shown');
     // console.log('Current State', this.state);
   }
@@ -78,15 +89,12 @@ class App extends Component {
       selectedOptions: {
         ...this.state.selectedOptions,
         instanceName: value.Name,
-        instanceId: value.InstanceId
+        instanceId: value.InstanceId || value.DBInstanceIdentifier
       }
     });
-    // console.log(this.state.selectedOptions);
-    // console.log('This is the value of the div being selected', value);
-    // console.log(value.Name);
-    // console.log(value.InstanceId);
     console.log(this.state.selectedOptions);
   }
+
   selectEC2() {
     fetch('http://localhost:8080/EC2info', { mode: 'cors' })
       .then(res => {
@@ -99,7 +107,27 @@ class App extends Component {
           ec2Display: true,
           selectedOptions: {
             ...this.state.selectedOptions,
-            serviceName: 'AWS/EC2'
+            serviceName: 'AWS/EC2',
+            instanceParam: 'InstanceId'
+          }
+        });
+      });
+  }
+
+  selectRDS() {
+    fetch('http://localhost:8080/RDSinfo', { mode: 'cors' })
+      .then(res => {
+        return res.json();
+      })
+      .then(info => {
+        // console.log(info);
+        this.setState({
+          rdsContainer: info,
+          rdsDisplay: true,
+          selectedOptions: {
+            ...this.state.selectedOptions,
+            serviceName: 'AWS/RDS',
+            instanceParam: 'DBInstanceIdentifier'
           }
         });
       });
@@ -121,7 +149,8 @@ class App extends Component {
       })
       .then(info => {
         const humanDates = info.Timestamps.map(interval => {
-          return new Date(interval);
+          var date = new Date(interval);
+          return date.toLocaleTimeString();
         });
         const parsedValues = info.Values.map(value => {
           return Number.parseFloat(value).toFixed(2);
@@ -151,8 +180,8 @@ class App extends Component {
         };
         if (!metricName || !graphType) {
           console.log('Please select a Metric name and Graph type');
-        } else {
-          // console.log(chart);
+        }
+        if (this.state.selectedOptions.serviceName === 'AWS/EC2') {
           this.state.ec2Charts.push(chart);
           this.setState({
             chartOptions: chart,
@@ -160,18 +189,30 @@ class App extends Component {
             showCreateDisplay: false,
             metricsDisplay: true
           });
-          // console.log(this.state.selectedOptions);
-          console.log(this.state.ec2Charts);
-
-          // console.log(this.state.ec2Charts);
-          // console.log(this.state.ec2Charts.length);
         }
+        if (this.state.selectedOptions.serviceName === 'AWS/RDS') {
+          this.state.rdsCharts.push(chart);
+          this.setState({
+            chartOptions: chart,
+            rdsDisplay: false,
+            showCreateDisplay: false,
+            metricsDisplay: true
+          });
+        }
+        // else {
+        //   // console.log(chart);
+        //   // console.log(this.state.selectedOptions);
+        //   // console.log(this.state.ec2Charts);
+        //   // console.log(this.state.ec2Charts);
+        //   // console.log(this.state.ec2Charts.length);
+        // }
       });
   }
 
   render() {
     const toggle = this.toggleDisplay;
     const selectEC2 = this.selectEC2;
+    const selectRDS = this.selectRDS;
     const toggleGraphDisplay = this.toggleGraphDisplay;
     const selectedMetricOptions = this.selectedMetricOptions;
     const selectedGraphOptions = this.selectedGraphOptions;
@@ -180,6 +221,10 @@ class App extends Component {
     const allec2Charts = this.state.ec2Charts.map(chartOption => {
       return <Chart key={chartOption.length} chartOption={chartOption} />;
     });
+    const allrdsCharts = this.state.rdsCharts.map(chartOption => {
+      return <Chart key={chartOption.length} chartOption={chartOption} />;
+    });
+
     return (
       <div>
         <div>
@@ -201,6 +246,7 @@ class App extends Component {
             {...this.state}
             closePopup={toggle}
             selectEC2={selectEC2}
+            selectRDS={selectRDS}
             toggleGraphDisplay={toggleGraphDisplay}
             selectedMetricOptions={selectedMetricOptions}
             selectedGraphOptions={selectedGraphOptions}
@@ -214,7 +260,6 @@ class App extends Component {
           {this.state.ec2Charts.length > 0 ? (
             <div>
               <div>Elastic Cloud Computer (EC2)</div>
-              {/* <EC2Static {...this.state} /> */}
               {allec2Charts}
             </div>
           ) : null}
@@ -224,12 +269,12 @@ class App extends Component {
           {/* <div>Simple Storage Service (S3)</div> */}
         </div>
         <div className="wrapper">
-          {/* {this.state.rdsRendered ? (
+          {this.state.rdsCharts.length > 0 ? (
             <div>
               <div>Relational Database Service (RDS) </div>
-              <Chart chartOption={this.state.chartOptions} />
+              {allrdsCharts}
             </div>
-          ) : null} */}
+          ) : null}
         </div>
       </div>
     );

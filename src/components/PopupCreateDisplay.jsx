@@ -9,6 +9,7 @@ export default class PopupCreateDisplay extends Component {
       selectedMetricOptions,
       selectedGraphOptions,
       toggleGraphDisplay,
+      selectRDS,
       selectEC2,
       closePopup
     } = this.props;
@@ -16,7 +17,7 @@ export default class PopupCreateDisplay extends Component {
     return (
       <div className="popup">
         <div className="popup_inner">
-          {this.props.ec2Display ? (
+          {this.props.ec2Display || this.props.rdsDisplay ? (
             <ChooseMetric
               {...this.props}
               toggleGraphDisplay={toggleGraphDisplay}
@@ -29,8 +30,10 @@ export default class PopupCreateDisplay extends Component {
               <div className="services" onClick={selectEC2}>
                 Elastic Cloud Compute (EC2)
               </div>
-              <div className="services">Simple Storage Service (S3)</div>
-              <div className="services">Dynamo Database (DDB)</div>
+              <div className="services" onClick={selectRDS}>
+                Relational Database Services (RDS)
+              </div>
+              <div className="services">AWS Service</div>
             </div>
           )}
           <div className="submit button" onClick={closePopup}>
