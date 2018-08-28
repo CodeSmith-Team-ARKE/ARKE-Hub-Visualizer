@@ -4,7 +4,7 @@ export default class EC2Static extends Component {
   render() {
     const mappedEC2List = this.props.ec2Container.map(instance => {
       return (
-        <div className="EC2-contents" key={instance.Name}>
+        <div className="EC2-contents" key={instance.InstanceId}>
           Name: {instance.Name}
           <br />
           Instance ID: {instance.InstanceId}
