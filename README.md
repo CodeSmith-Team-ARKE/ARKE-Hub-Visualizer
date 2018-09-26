@@ -1,1 +1,1 @@
-Team Arke AWS visualizer
+ARKE AWS visualizer
